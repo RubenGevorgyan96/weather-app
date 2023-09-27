@@ -7,6 +7,16 @@ export const getDay = () => {
   return currentDate
 }
 
-export const getDailyWeather = (data: IDailyWeatherList) => {
+export const getDailyWeather = (data: IDailyWeatherList[]) => {
+  let thisTime = new Date().getHours()
 
+  const dailyWeatherByTime = data?.filter((elem) => {
+    let time = Number(elem.dt_txt.slice(11, 13))
+    if (thisTime - 1 === time && thisTime + 2 === time + 3) {
+      return time === thisTime - 1
+    } else if (thisTime + 1 === time && thisTime - 2 === time - 3) {
+      return time === thisTime + 1
+    }
+  })
+  return dailyWeatherByTime
 }

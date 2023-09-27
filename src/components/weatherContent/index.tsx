@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { fetchWeatherDaily, fetchCurrentWeatherData } from "../../store/actions"
 import { Link } from "react-router-dom"
-import { getDay } from "../../helpers"
+import { getDailyWeather, getDay } from "../../helpers"
 import { IDailyWeatherList, IFilteredWeatherListWithDay } from "../../types"
 import styles from "./weather.module.css"
 import { WeatherHourlyItems } from "./WeatherHourlyItems"
@@ -26,17 +26,7 @@ const Weather = () => {
   const dailyWeatherToday = dailyWeatherList?.filter(
     (item) => item.dt_txt?.split(" ")[0] === getDay()
   )
-  let thisTime = new Date().getHours()
-
-  const dailyWeatherByTime = dailyWeatherList?.filter((elem) => {
-    let time = Number(elem.dt_txt.slice(11, 13))
-    if (thisTime - 1 === time && thisTime + 2 === time + 3) {
-      return time === thisTime - 1
-    } else if (thisTime + 1 === time && thisTime - 2 === time - 3) {
-      return time === thisTime + 1
-    }
-  })
-
+  const dailyWeatherByTime = getDailyWeather(dailyWeatherList)
   const celsiusOrFahrenheit = weatherPageData.isCelsius ? "°C" : "°F"
   const getCurrent = useCallback(
     (list: IDailyWeatherList) => {
