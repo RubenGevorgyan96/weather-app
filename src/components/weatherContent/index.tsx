@@ -26,12 +26,18 @@ const Weather = () => {
   const dailyWeatherToday = dailyWeatherList?.filter(
     (item) => item.dt_txt?.split(" ")[0] === getDay()
   )
-  const dailyWeatherByTime = dailyWeatherList?.filter((item) =>
-    item.dt_txt.includes("15:00:00")
-  )
+  let thisTime = new Date().getHours()
+
+  const dailyWeatherByTime = dailyWeatherList?.filter((elem) => {
+    let time = Number(elem.dt_txt.slice(11, 13))
+    if (thisTime - 1 === time && thisTime + 2 === time + 3) {
+      return time === thisTime - 1
+    } else if (thisTime + 1 === time && thisTime - 2 === time - 3) {
+      return time === thisTime + 1
+    }
+  })
 
   const celsiusOrFahrenheit = weatherPageData.isCelsius ? "°C" : "°F"
-
   const getCurrent = useCallback(
     (list: IDailyWeatherList) => {
       const currentItem = dailyWeatherList?.filter(
