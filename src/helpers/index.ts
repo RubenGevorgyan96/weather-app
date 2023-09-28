@@ -8,8 +8,8 @@ export const getDay = () => {
 }
 
 export const getDailyWeather = (data: IDailyWeatherList[]) => {
-  let thisTime = new Date().getUTCHours()
-  console.log(thisTime)
+  let thisTime = new Date().getHours()
+
   const dailyWeatherByTime = data?.filter((elem) => {
     let time = Number(elem.dt_txt.slice(11, 13))
     if (thisTime - 1 === time && thisTime + 2 === time + 3) {
@@ -18,5 +18,12 @@ export const getDailyWeather = (data: IDailyWeatherList[]) => {
       return time === thisTime + 1
     }
   })
-  return dailyWeatherByTime
+  if (dailyWeatherByTime) {
+    return dailyWeatherByTime
+  } else {
+    const filteredByTime = data.filter((item) =>
+      item.dt_txt.includes("15:00:00")
+    )
+    return filteredByTime
+  }
 }
