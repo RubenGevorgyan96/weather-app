@@ -18,7 +18,8 @@ export const getDailyWeather = (data: IDailyWeatherList[]) => {
       return time === thisTime + 1
     }
   })
-  if (dailyWeatherByTime) {
+
+  if (dailyWeatherByTime.length) {
     return dailyWeatherByTime
   } else {
     const filteredByTime = data.filter((item) =>
